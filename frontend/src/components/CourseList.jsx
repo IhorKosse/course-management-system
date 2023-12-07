@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // або використовуйте fetch
-
+import { Link } from 'react-router-dom';
 function CourseList() {
   const [courses, setCourses] = useState([]);
 
@@ -19,13 +19,15 @@ function CourseList() {
 
   return (
     <div className="container mx-auto mt-10">
-      <h2 className="text-2xl font-bold">Courses</h2>
-      <ul>
-        {courses.map(course => (
-          <li key={course.id}>{course.name}</li>
-        ))}
-      </ul>
-    </div>
+    <h2 className="text-2xl font-bold">Courses</h2>
+    <ul>
+      {courses.map(course => (
+        <li key={course.id}>
+          <Link to={`/courses/${course.id}`}>{course.name}</Link>
+        </li>
+      ))}
+    </ul>
+  </div>
   );
 }
 

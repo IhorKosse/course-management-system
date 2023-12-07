@@ -1,7 +1,8 @@
 const express = require('express');
 const coursesController = require('../controllers/coursesController');
 const router = express.Router();
-
+console.log(11111111111111111111111111111111);
+console.log(coursesController.getAllCourses);
 // Отримання всіх курсів
 router.get('/', coursesController.getAllCourses);
 
