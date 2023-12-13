@@ -1,4 +1,4 @@
-const pool = require('../db');
+const pool = require("../db");
 
 // Отримання всіх курсів
 exports.getAllCourses = async (req, res) => {
@@ -13,7 +13,9 @@ exports.getAllCourses = async (req, res) => {
 exports.getCourseDetails = async (req, res) => {
   try {
     const { id } = req.params;
-    const course = await pool.query("SELECT * FROM courses WHERE id = $1", [id]);
+    const course = await pool.query("SELECT * FROM courses WHERE id = $1", [
+      id,
+    ]);
 
     if (course.rows.length === 0) {
       return res.status(404).json({ message: "Курс не знайдено" });
@@ -49,17 +51,28 @@ exports.updateCourse = async (req, res) => {
 exports.deleteCourse = async (req, res) => {
   try {
     const { id } = req.params;
-    const deleteCourse = await pool.query("DELETE FROM courses WHERE id = $1 RETURNING *", [id]);
 
-    if (deleteCourse.rows.length === 0) {
-      return res.status(404).json({ message: "Курс не знайдено" });
+    // Перевірка на залежні записи
+    const classes = await pool.query(
+      "SELECT * FROM classes WHERE course_id = $1",
+      [id]
+    );
+    if (classes.rows.length > 0) {
+      return res
+        .status(400)
+        .json({
+          message: "Не можна видалити курс, оскільки він має залежні заняття",
+        });
     }
 
+    // Якщо залежних записів немає, видаляємо курс
+    await pool.query("DELETE FROM courses WHERE id = $1", [id]);
     res.json({ message: "Курс видалено" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 // Додавання нового курсу
 exports.addCourse = async (req, res) => {
   try {
