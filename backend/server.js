@@ -5,6 +5,7 @@ const pool = require('./db');
 const coursesRouter = require('./routes/coursesRouter'); // Додано цей рядок
 const usersRouter = require('./routes/usersRouter');
 const enrollmentsRouter = require('./routes/enrollmentsRouter');
+const assignmentsRouter = require('./routes/assignmentsRouter');
 const app = express();
 
 app.use(cors());
@@ -27,6 +28,7 @@ app.use('/api/courses', coursesRouter); // Додано цей рядок
 app.use(express.json());
 app.use('/api', usersRouter);
 app.use('/api', enrollmentsRouter);
+app.use('/api', assignmentsRouter);
 // Ваші інші маршрути та API-функції тут...
 
 const PORT = process.env.PORT || 3001;
