@@ -6,6 +6,8 @@ const coursesRouter = require('./routes/coursesRouter'); // Додано цей 
 const usersRouter = require('./routes/usersRouter');
 const enrollmentsRouter = require('./routes/enrollmentsRouter');
 const assignmentsRouter = require('./routes/assignmentsRouter');
+const gradesRouter = require('./routes/gradesRouter');
+
 const app = express();
 
 app.use(cors());
@@ -29,6 +31,7 @@ app.use(express.json());
 app.use('/api', usersRouter);
 app.use('/api', enrollmentsRouter);
 app.use('/api', assignmentsRouter);
+app.use('/api', gradesRouter);
 // Ваші інші маршрути та API-функції тут...
 
 const PORT = process.env.PORT || 3001;

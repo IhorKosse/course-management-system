@@ -22,3 +22,16 @@ exports.getAllEnrollments = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
+  exports.getEnrollmentsByCourse = async (req, res) => {
+    const courseId = parseInt(req.params.courseId);
+  
+    try {
+      const enrollments = await pool.query(
+        "SELECT e.*, u.username FROM enrollments e INNER JOIN users u ON e.student_id = u.id WHERE e.course_id = $1",
+        [courseId]
+      );
+      res.json(enrollments.rows);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
